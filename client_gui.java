@@ -37,9 +37,9 @@ import javax.swing.Icon;
 public class client_gui extends JFrame {
 	private static Point origin = new Point();//初始位点
 	public JFrame jf;
+	private JPanel PanelCenter;
+	private CardLayout cl_PanelCenter = new CardLayout();// 设置卡片布局
 	private JTextField textField;
-	private JPanel PanelCenter1;
-	private CardLayout cards = new CardLayout();// 设置卡片布局
 	public client_gui() {
 		
 		this.jf = new JFrame();
@@ -154,103 +154,201 @@ public class client_gui extends JFrame {
 			
 	}
 	public JPanel creatPanelCenter() {
-			PanelCenter1 = new JPanel();
-			PanelCenter1.setPreferredSize(new Dimension(0, 565));
-			PanelCenter1.setLayout(cards);//卡片布局
+			PanelCenter = new JPanel();
+			PanelCenter.setPreferredSize(new Dimension(0, 565));
+			PanelCenter.setLayout(cl_PanelCenter);//cards layout
 			
-			JPanel home = new JPanel();
-			JPanel PanelCenter = new JPanel();
-			home.setLayout(null);
-			PanelCenter.setLayout(null);
-			home.setPreferredSize(new Dimension(0, 565));
-			PanelCenter.setPreferredSize(new Dimension(0, 565));//卡片panel初始化
+			JPanel Home = new JPanel();
+			JPanel Department = new JPanel();
+			JPanel Doc_infor = new JPanel();
+			Home.setLayout(null);
+			Department.setLayout(null);
+			Doc_infor.setLayout(null);
+			Home.setPreferredSize(new Dimension(0, 565));
+			Department.setPreferredSize(new Dimension(0, 565));
+			Doc_infor.setPreferredSize(new Dimension(0, 565));
+			Home.setBackground(new Color(230,230,230));
+			Department.setBackground(new Color(230,230,230));
+			Doc_infor.setBackground(new Color(230,230,230));
 			
-			JButton jb1 = new JButton(new ImageIcon("factors2/will.png"));//home
-			jb1.addActionListener(new ActionListener() {
+			JButton will = new JButton(new ImageIcon("factors2/will.png"));//home page
+			will.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					cards.show(PanelCenter1, "p2");
+					cl_PanelCenter.show(PanelCenter, "p2");
 				}
 			});
-			jb1.setBorder(null);
-			jb1.setFocusPainted(false);
-			jb1.setBounds(74, 200, 297, 183);
-			home.add(jb1);
-			JButton button_8 = new JButton(new ImageIcon("factors2/already.png"));
-			button_8.setFocusPainted(false);
-			button_8.setBorder(null);
-			button_8.setBounds(422, 200, 297, 183);
-			home.add(button_8);
-			home.setVisible(true);//默认显示home页面
+			will.setBorder(null);
+			will.setFocusPainted(false);
+			will.setBounds(74, 200, 297, 183);
+			Home.add(will);
+			JButton already = new JButton(new ImageIcon("factors2/already.png"));
+			already.setFocusPainted(false);
+			already.setBorder(null);
+			already.setBounds(422, 200, 297, 183);
+			Home.add(already);
+            JLabel welcome = new JLabel("欢迎进入哈尔滨工业大学医院自助挂号系统！");
+			welcome.setFont(new Font("方正姚体", Font.PLAIN, 25));
+			welcome.setBounds(63, 108, 560, 46);
+			welcome.setForeground(new Color(138,138,138));
+			Home.add(welcome);
+			PanelCenter.add(Home,"p1");
 			
-			
-			JButton btnNewButton = new JButton(new ImageIcon("factors2/waike.png"));//科室信息页面
-			btnNewButton.setBorder(null);
-			btnNewButton.setFocusPainted(false);
-			btnNewButton.setBounds(141, 162, 133, 160);
-			PanelCenter.add(btnNewButton);
-			JButton button = new JButton(new ImageIcon("factors2/neike.png"));
-			button.setFocusPainted(false);
-			button.setBorder(null);
-			button.setBounds(275, 162, 133, 160);
-			PanelCenter.add(button);
-			JButton button_1 = new JButton(new ImageIcon("factors2/fuchanke.png"));
-			button_1.setFocusPainted(false);
-			button_1.setBorder(null);
-			button_1.setBounds(409, 162, 133, 160);
-			PanelCenter.add(button_1);
-			JButton button_2 = new JButton(new ImageIcon("factors2/erke.png"));
-			button_2.setFocusPainted(false);
-			button_2.setBorder(null);
-			button_2.setBounds(542, 162, 133, 160);
-			PanelCenter.add(button_2);			
-			JButton button_3 = new JButton(new ImageIcon("factors2/yanke.png"));
-			button_3.setFocusPainted(false);
-			button_3.setBorder(null);
-			button_3.setBounds(141, 324, 133, 160);
-			PanelCenter.add(button_3);			
-			JButton button_4 = new JButton(new ImageIcon("factors2/erbihouke.png"));
-			button_4.setFocusPainted(false);
-			button_4.setBorder(null);
-			button_4.setBounds(275, 324, 133, 160);
-			PanelCenter.add(button_4);			
-			JButton button_5 = new JButton(new ImageIcon("factors2/kouqiangke.png"));
-			button_5.setFocusPainted(false);
-			button_5.setBorder(null);
-			button_5.setBounds(409, 324, 133, 160);
-			PanelCenter.add(button_5);			
-			JButton button_6 = new JButton(new ImageIcon("factors2/anbingqing.png"));
-			button_6.setFocusPainted(false);
-			button_6.setBorder(null);
-			button_6.setBounds(542, 324, 133, 160);
-			PanelCenter.add(button_6);			
-			JButton button_7 = new JButton(new ImageIcon("factors2/back.png"));
-			button_7.addActionListener(new ActionListener() {
+			JButton waike = new JButton(new ImageIcon("factors2/waike.png"));//Department page
+			waike.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					cl_PanelCenter.show(PanelCenter, "p3");
+				}
+			});
+			waike.setBorder(null);
+			waike.setFocusPainted(false);
+			waike.setBounds(141, 162, 133, 160);
+			Department.add(waike);
+			JButton neike = new JButton(new ImageIcon("factors2/neike.png"));
+			neike.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					cl_PanelCenter.show(PanelCenter, "p3");
+				}
+			});
+			neike.setFocusPainted(false);
+			neike.setBorder(null);
+			neike.setBounds(275, 162, 133, 160);
+			Department.add(neike);
+			JButton fuchanke = new JButton(new ImageIcon("factors2/fuchanke.png"));
+			fuchanke.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					cl_PanelCenter.show(PanelCenter, "p3");
+				}
+			});
+			fuchanke.setFocusPainted(false);
+			fuchanke.setBorder(null);
+			fuchanke.setBounds(409, 162, 133, 160);
+			Department.add(fuchanke);
+			JButton erke = new JButton(new ImageIcon("factors2/erke.png"));
+			erke.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					cl_PanelCenter.show(PanelCenter, "p3");
+				}
+			});
+			erke.setFocusPainted(false);
+			erke.setBorder(null);
+			erke.setBounds(542, 162, 133, 160);
+			Department.add(erke);			
+			JButton yanke = new JButton(new ImageIcon("factors2/yanke.png"));
+			yanke.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					cl_PanelCenter.show(PanelCenter, "p3");
+				}
+			});
+			yanke.setFocusPainted(false);
+			yanke.setBorder(null);
+			yanke.setBounds(141, 324, 133, 160);
+			Department.add(yanke);			
+			JButton erbihouke = new JButton(new ImageIcon("factors2/erbihouke.png"));
+			erbihouke.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					cl_PanelCenter.show(PanelCenter, "p3");
+				}
+			});
+			erbihouke.setFocusPainted(false);
+			erbihouke.setBorder(null);
+			erbihouke.setBounds(275, 324, 133, 160);
+			Department.add(erbihouke);			
+			JButton kouqiangke = new JButton(new ImageIcon("factors2/kouqiangke.png"));
+			kouqiangke.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					cl_PanelCenter.show(PanelCenter, "p3");
+				}
+			});
+			kouqiangke.setFocusPainted(false);
+			kouqiangke.setBorder(null);
+			kouqiangke.setBounds(409, 324, 133, 160);
+			Department.add(kouqiangke);			
+			JButton anbingqing = new JButton(new ImageIcon("factors2/anbingqing.png"));
+			anbingqing.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					cl_PanelCenter.show(PanelCenter, "p3");
+				}
+			});
+			anbingqing.setFocusPainted(false);
+			anbingqing.setBorder(null);
+			anbingqing.setBounds(542, 324, 133, 160);
+			Department.add(anbingqing);			
+			JButton back = new JButton(new ImageIcon("factors2/back.png"));
+			back.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					cards.show(PanelCenter1, "p1");
+					cl_PanelCenter.show(PanelCenter, "p1");
 				}
 			});
-			button_7.setFocusPainted(false);
-			button_7.setBorder(null);
-			button_7.setBounds(625, 78, 105, 47);
-			PanelCenter.add(button_7);
+			back.setFocusPainted(false);
+			back.setBorder(null);
+			back.setBounds(625, 78, 105, 47);
+			Department.add(back);
+			JLabel prompt = new JLabel("请选择想要预约的科室！");
+			prompt.setForeground(new Color(138, 138, 138));
+			prompt.setFont(new Font("方正姚体", Font.PLAIN, 28));
+			prompt.setBounds(58, 78, 447, 47);
+			Department.add(prompt);
+			PanelCenter.add(Department, "p2");
+						
+			JButton Doc1 = new JButton(new ImageIcon("factors2/doctor.png"));
+			Doc1.setBounds(70, 96, 133, 185);
+			Doc1.setFocusPainted(false);
+			Doc1.setBorder(null);
+			Doc_infor.add(Doc1);
+			JButton Doc2 = new JButton(new ImageIcon("factors2/doctor.png"));
+			Doc2.setBounds(70, 316, 133, 185);
+			Doc2.setFocusPainted(false);
+			Doc2.setBorder(null);
+			Doc_infor.add(Doc2);			
+			JButton order1 = new JButton(new ImageIcon("factors2/order.png"));
+			order1.setBounds(645, 243, 86, 38);
+			order1.setFocusPainted(false);
+			order1.setBorder(null);
+			Doc_infor.add(order1);
+			JButton order2 = new JButton(new ImageIcon("factors2/order.png"));
+			order2.setBounds(645, 463, 86, 38);
+			order2.setFocusPainted(false);
+			order2.setBorder(null);
+			Doc_infor.add(order2);
+			JTextField info1 = new JTextField();
+			info1.setFont(new Font("方正姚体", Font.PLAIN, 15));
+			info1.setForeground(new Color(138,138,138));
+			info1.setBounds(247, 96, 484, 134);
+			info1.setBorder(null);
+			info1.setBackground(new Color(230,230,230));
+			info1.setColumns(10);
+			info1.setText("医师简介");
+			Doc_infor.add(info1);
+			JTextField info2 = new JTextField();
+			info2.setColumns(10);
+			info2.setFont(new Font("方正姚体", Font.PLAIN, 15));
+			info2.setForeground(new Color(138,138,138));
+			info2.setBorder(null);
+			info2.setBackground(new Color(230,230,230));
+			info2.setBounds(247, 316, 484, 134);
+			info2.setText("医师简介");
+			Doc_infor.add(info2);
+			JButton back1 = new JButton(new ImageIcon("factors2/back.png"));
+			back1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					cl_PanelCenter.show(PanelCenter, "p2");
+				}
+			});
+			back1.setFocusPainted(false);
+			back1.setBorder(null);
+			back1.setBounds(659, 25, 105, 47);
+			Doc_infor.add(back1);
+			PanelCenter.add(Doc_infor,"p3");
 			
-			JLabel lblNewLabel = new JLabel("请选择想要预约的科室！");//返回按钮
-			lblNewLabel.setForeground(new Color(138, 138, 138));
-			lblNewLabel.setFont(new Font("方正姚体", Font.PLAIN, 28));
-			lblNewLabel.setBounds(58, 78, 447, 47);
-			PanelCenter.add(lblNewLabel);
-			
-			
-			PanelCenter1.add(home,"p1");
-			
-			JLabel lblNewLabel_2 = new JLabel("欢迎进入哈尔滨工业大学医院自助挂号系统！");
-			lblNewLabel_2.setFont(new Font("方正姚体", Font.PLAIN, 25));
-			lblNewLabel_2.setBounds(63, 108, 560, 46);
-			lblNewLabel_2.setForeground(new Color(138,138,138));
-			home.add(lblNewLabel_2);
-			PanelCenter1.add(PanelCenter, "p2");
-			
-			return PanelCenter1;
+			return PanelCenter;
 	}
 		
 		
