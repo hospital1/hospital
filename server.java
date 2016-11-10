@@ -10,12 +10,16 @@ import java.net.ServerSocket;
 import java.net.Socket;  
 public class server extends Thread {  
   
-    public static int PORT = 8080;
+    public static int PORT = 5000;
     public ServerSocket s = null;  
     public Socket socket = null;  
     public BufferedReader br = null;  
     public PrintWriter pw = null;
-    
+    public String clientinfo ="";
+    public String orderinfo="";//后期要记得更新，要不然加一个用户info就被覆盖（我就是单纯的懒）
+    String[] array = null;//clientinfo
+    int[] num = new int[7];//save the num foe patient 
+    public boolean flag = true;//to judge whether the client is on
     public server() throws IOException
     {
     	s = new ServerSocket(PORT);  
@@ -54,13 +58,33 @@ public class server extends Thread {
         }  
         public void run()  
         {  
-            try  
+        	for(int i =0;i < 7;i++) num[i] = 1;
+        	try  
             {  
             	br = new BufferedReader(new InputStreamReader(socket.getInputStream()));//get message from server 
                 pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())),true);//send message to server
-                String get = tcprec();  
-                System.out.println(get);
-                tcpsend("thread test");
+                while(flag){
+                	clientinfo = br.readLine(); 
+                    System.out.println(clientinfo);
+                	array = clientinfo.split("&");
+                    if(array[0] .equals("ordernow")) {
+                    	for(int i = 1;i < array.length-1;i++)
+                    	{
+                    		orderinfo += array[i]+"&";
+                    		tcpsend("num"+"&"+ num[0]);//又给自己挖了一个坑，回头记得填
+                    		num[0]++;
+                    	}
+                    	orderinfo += array[array.length-1];
+                    }else if(array[0].equals("query")){
+                    	System.out.println("ordermes"+"&"+orderinfo);
+                    	tcpsend("ordermes"+"&"+orderinfo);
+                    }else if(array[0].equals("exit"))
+                    {
+                    	flag = false;
+                    }
+                }
+                
+                
             }  
             catch (IOException e)  
             {  
@@ -83,7 +107,6 @@ public class server extends Thread {
         {
     		try {
     			String str = br.readLine();
-    			System.out.println(str+socket.getPort());
         		return str;
     		} catch (IOException e) {
     			// TODO 自动生成的 catch 块
