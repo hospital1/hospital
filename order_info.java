@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import tcp.client;
 
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 
 
 
@@ -34,7 +35,7 @@ public class order_info extends JFrame {
 	private JTextField textField;
 	private JTextField name_txt;
 	private JTextField old_txt;
-	private JTextField illness_dis;
+	private JTextArea illness_dis;
 	public String pname = "";
 	public String pold = "";
 	public String psex ="";
@@ -216,8 +217,10 @@ public class order_info extends JFrame {
 			illness.setBounds(25, 130, 136, 25);
 			PanelCenter.add(illness);
 			
-			illness_dis = new JTextField();
+			illness_dis = new JTextArea();
+			illness_dis.setFont(new Font("·½ÕýÒ¦Ìå", Font.PLAIN, 16));
 			illness_dis.setBounds(25, 170, 335, 132);
+			illness_dis.setForeground(new Color(138,138,138));
 			PanelCenter.add(illness_dis);
 			illness_dis.setColumns(10);
 			
