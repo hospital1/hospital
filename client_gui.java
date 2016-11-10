@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import tcp.client;//import the link for send and receive info
@@ -31,7 +32,7 @@ public class client_gui extends JFrame {
 	private JPanel PanelCenter;
 	private CardLayout cl_PanelCenter = new CardLayout();// set the layout in card
 	private JTextField ordernum;
-	private JTextField order_info;
+	private JTextArea order_info;
 	public String[] array = new String[20];//save message from server 
 	public boolean flag =true;
 	public client_gui(client cg2) {
@@ -357,15 +358,20 @@ public class client_gui extends JFrame {
 				public void mouseClicked(MouseEvent arg0) {
 					cg.tcpsend("query"+"&"+"chaxun");
 					String ordermes ="";
-					String txt = "订单信息 ："+ "\n";
-					ordermes = cg.tcprec();
+					String txt = "订单信息 ："+ "\r\n\r\n";
+					try {
+						ordermes = cg.br.readLine();
+					} catch (IOException e) {
+						// TODO 自动生成的 catch 块
+						e.printStackTrace();
+					}
 					System.out.println(ordermes);
 					array = ordermes.split("&");
-					txt += "姓名:" + array[0] + "\n";
-					txt += "性别:" + array[1] + "\n";
-					txt += "年龄:" + array[2] + "\n";
-					txt += "医保:" + array[3] + "\n";
-					txt += "病情描述" + array[4] + "\n";	
+					txt += "\t"+"姓名:" + array[1] + "\r\n";
+					txt += "\t"+"性别:" + array[2] + "\r\n";
+					txt += "\t"+"年龄:" + array[3] + "\r\n";
+					txt += "\t"+"医保:" + array[4] + "\r\n";
+					txt += "\t"+"病情描述:" + array[5] + "\r\n";
 					order_info.setText(txt);
 					
 				}
@@ -375,7 +381,9 @@ public class client_gui extends JFrame {
 			query.setBorder(null);
 			alre.add(query);
 			
-			order_info = new JTextField();
+			order_info = new JTextArea();
+			order_info.setFont(new Font("方正姚体", Font.PLAIN, 22));
+			order_info.setForeground(new Color(138,138,138));
 			order_info.setBounds(115, 100, 557, 328);
 			alre.add(order_info);
 			order_info.setColumns(10);
