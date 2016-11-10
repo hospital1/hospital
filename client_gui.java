@@ -11,57 +11,34 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.Icon;
 
-
-
+import tcp.client;//import the link for send and receive info
 
 public class client_gui extends JFrame {
 	private static Point origin = new Point();//初始位点
 	public JFrame jf;
+	public client cg;
+	private String orderinfo;
 	private JPanel PanelCenter;
-	private CardLayout cl_PanelCenter = new CardLayout();// 设置卡片布局
-	private JTextField textField;
-	public client_gui() {
-		
+	private CardLayout cl_PanelCenter = new CardLayout();// set the layout in card
+	private JTextField ordernum;
+	private JTextField order_info;
+	public String[] array = new String[20];//save message from server 
+	public boolean flag =true;
+	public client_gui(client cg2) {
+		this.cg = cg2;
 		this.jf = new JFrame();
 		initUI(jf);
 		jf.setVisible(true);
-	}
-	//定义一个添加背景的方法
-	public void addBackgroundImage(JFrame jf){
-				
-			//实例化一个ImageIcon图标类的对象
-			ImageIcon image = new ImageIcon("factors2/board1.png");
-			//实例化一个标签类的对象
-			JLabel background = new JLabel(image); 
-			//设置标签显示的位置和大小
-			background.setBounds(0,0,image.getIconWidth(),image.getIconHeight());
-			//将标签添加到窗体的第二层面板上
-			jf.getLayeredPane().add(background,new Integer(Integer.MIN_VALUE));
-			//获取窗体的第一层板对象
-			JPanel contentPanel = (JPanel)jf.getContentPane();
-			//设置第一层面板为透明
-			contentPanel.setOpaque(false);
-			
 	}
 	//定义一个初始化界面的方法  
 	public void initUI(JFrame jf){  
@@ -70,7 +47,6 @@ public class client_gui extends JFrame {
 	    jf.setDefaultCloseOperation(3);//设置关闭时退出程序  
 	    jf.setResizable(true);//设置不能调整窗口大小 
 	    jf.setUndecorated(true);//消除边框
-	    //addBackgroundImage(jf);  
 	    jf.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				// 记录鼠标初始点击点
@@ -85,23 +61,19 @@ public class client_gui extends JFrame {
 				Point p = jf.getLocation();
 				jf.setLocation(p.x + e.getX() - origin.x, p.y + e.getY()- origin.y);
 			}
-		});
-	      
+		});  
 	    //实例化一个边框布局  
 	    BorderLayout bl = new BorderLayout();  
 	    //设置窗体的布局为边框布局  
-	    jf.getContentPane().setLayout(bl);  
-	      
+	    jf.getContentPane().setLayout(bl);   
 	    /*********北边的面板容器*************/  
 	    JPanel PanelNorth = creatPanelNorth();
-	    jf.getContentPane().add(PanelNorth,bl.NORTH);  
-		     
-	      
+	    PanelNorth.updateUI();
+	    jf.getContentPane().add(PanelNorth,bl.NORTH);        
 	    /*********中间的面板容器*************/  
-	    JPanel PanelCenter = creatPanelCenter();  
+	    JPanel PanelCenter = creatPanelCenter();
+	    PanelCenter.updateUI();
 	    jf.getContentPane().add(PanelCenter,bl.CENTER);  
-	    
-	   addBackgroundImage(jf);
 	      
 	}  
 	
@@ -117,6 +89,8 @@ public class client_gui extends JFrame {
 		jbc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				jf.dispose();
+				cg.tcpsend("exit" +"&"+"hahahahah");
+				flag = false;
 				System.exit(0);
 			}
 		});
@@ -143,17 +117,15 @@ public class client_gui extends JFrame {
 		jbm.setFocusPainted(false);
 		jbm.setToolTipText("最小化");
 		PanelNorth.add(jbm);
-		
 		JLabel lblNewLabel_1 = new JLabel("自助挂号系统");
 		lblNewLabel_1.setForeground(new Color(230,230,230));
 		lblNewLabel_1.setFont(new Font("方正姚体", Font.PLAIN, 22));
 		lblNewLabel_1.setBounds(14, 0, 196, 45);
 		PanelNorth.add(lblNewLabel_1);
-		
-		return PanelNorth;
-			
+		return PanelNorth;			
 	}
-	public JPanel creatPanelCenter() {
+	
+	public JPanel creatPanelCenter() {			
 			PanelCenter = new JPanel();
 			PanelCenter.setPreferredSize(new Dimension(0, 565));
 			PanelCenter.setLayout(cl_PanelCenter);//cards layout
@@ -161,15 +133,19 @@ public class client_gui extends JFrame {
 			JPanel Home = new JPanel();
 			JPanel Department = new JPanel();
 			JPanel Doc_infor = new JPanel();
+			JPanel alre = new JPanel();
 			Home.setLayout(null);
 			Department.setLayout(null);
 			Doc_infor.setLayout(null);
+			alre.setLayout(null);
 			Home.setPreferredSize(new Dimension(0, 565));
 			Department.setPreferredSize(new Dimension(0, 565));
 			Doc_infor.setPreferredSize(new Dimension(0, 565));
+			alre.setPreferredSize(new Dimension(0, 565));
 			Home.setBackground(new Color(230,230,230));
 			Department.setBackground(new Color(230,230,230));
 			Doc_infor.setBackground(new Color(230,230,230));
+			alre.setBackground(new Color(230,230,230));
 			
 			JButton will = new JButton(new ImageIcon("factors2/will.png"));//home page
 			will.addActionListener(new ActionListener() {
@@ -182,6 +158,12 @@ public class client_gui extends JFrame {
 			will.setBounds(74, 200, 297, 183);
 			Home.add(will);
 			JButton already = new JButton(new ImageIcon("factors2/already.png"));
+			already.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					cl_PanelCenter.show(PanelCenter, "p4");
+				}
+			});
 			already.setFocusPainted(false);
 			already.setBorder(null);
 			already.setBounds(422, 200, 297, 183);
@@ -281,16 +263,16 @@ public class client_gui extends JFrame {
 			anbingqing.setBorder(null);
 			anbingqing.setBounds(542, 324, 133, 160);
 			Department.add(anbingqing);			
-			JButton back = new JButton(new ImageIcon("factors2/back.png"));
-			back.addActionListener(new ActionListener() {
+			JButton dep_back = new JButton(new ImageIcon("factors2/back.png"));
+			dep_back.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cl_PanelCenter.show(PanelCenter, "p1");
 				}
 			});
-			back.setFocusPainted(false);
-			back.setBorder(null);
-			back.setBounds(625, 78, 105, 47);
-			Department.add(back);
+			dep_back.setFocusPainted(false);
+			dep_back.setBorder(null);
+			dep_back.setBounds(625, 78, 105, 47);
+			Department.add(dep_back);
 			JLabel prompt = new JLabel("请选择想要预约的科室！");
 			prompt.setForeground(new Color(138, 138, 138));
 			prompt.setFont(new Font("方正姚体", Font.PLAIN, 28));
@@ -309,6 +291,14 @@ public class client_gui extends JFrame {
 			Doc2.setBorder(null);
 			Doc_infor.add(Doc2);			
 			JButton order1 = new JButton(new ImageIcon("factors2/order.png"));
+			order1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					new order_info(cg);
+					//String order_mess = "" +inf.pname +"&"+inf.psex+"&"+inf.pold+"&"+inf.pmedi+"&"+inf.pat_info;
+					//System.out.println(order_mess);
+				}
+			});
 			order1.setBounds(645, 243, 86, 38);
 			order1.setFocusPainted(false);
 			order1.setBorder(null);
@@ -336,28 +326,89 @@ public class client_gui extends JFrame {
 			info2.setBounds(247, 316, 484, 134);
 			info2.setText("医师简介");
 			Doc_infor.add(info2);
-			JButton back1 = new JButton(new ImageIcon("factors2/back.png"));
-			back1.addActionListener(new ActionListener() {
+			JButton doc_back = new JButton(new ImageIcon("factors2/back.png"));
+			doc_back.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cl_PanelCenter.show(PanelCenter, "p2");
 				}
 			});
-			back1.setFocusPainted(false);
-			back1.setBorder(null);
-			back1.setBounds(659, 25, 105, 47);
-			Doc_infor.add(back1);
+			doc_back.setFocusPainted(false);
+			doc_back.setBorder(null);
+			doc_back.setBounds(659, 25, 105, 47);
+			Doc_infor.add(doc_back);
 			PanelCenter.add(Doc_infor,"p3");
 			
+			PanelCenter.add(alre, "p4");
+			
+			JLabel assign = new JLabel("\u8BF7\u8F93\u5165\u60A8\u7684\u8BA2\u5355\u53F7\uFF1A");
+			assign.setFont(new Font("方正姚体", Font.BOLD, 18));
+			assign.setBounds(37, 18, 180, 36);
+			assign.setForeground(new Color(138,138,138));
+			alre.add(assign);
+			
+			ordernum = new JTextField();
+			ordernum.setBounds(209, 22, 241, 34);
+			alre.add(ordernum);
+			ordernum.setColumns(10);
+			
+			JButton query = new JButton(new ImageIcon("factors2/query.png"));
+			query.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					cg.tcpsend("query"+"&"+"chaxun");
+					String ordermes ="";
+					String txt = "订单信息 ："+ "\n";
+					ordermes = cg.tcprec();
+					System.out.println(ordermes);
+					array = ordermes.split("&");
+					txt += "姓名:" + array[0] + "\n";
+					txt += "性别:" + array[1] + "\n";
+					txt += "年龄:" + array[2] + "\n";
+					txt += "医保:" + array[3] + "\n";
+					txt += "病情描述" + array[4] + "\n";	
+					order_info.setText(txt);
+					
+				}
+			});
+			query.setBounds(473, 22, 80, 32);
+			query.setFocusPainted(false);
+			query.setBorder(null);
+			alre.add(query);
+			
+			order_info = new JTextField();
+			order_info.setBounds(115, 100, 557, 328);
+			alre.add(order_info);
+			order_info.setColumns(10);
+			
+			JButton cancel = new JButton(new ImageIcon("factors2/cancel.png"));
+			cancel.setFocusPainted(false);
+			cancel.setBorder(null);
+			cancel.setBounds(166, 456, 188, 58);
+			alre.add(cancel);
+			
+			JButton order_back = new JButton(new ImageIcon("factors2/back2.png"));
+			order_back.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					cl_PanelCenter.show(PanelCenter, "p1");
+				}
+			});
+			order_back.setFocusPainted(false);
+			order_back.setBorder(null);
+			order_back.setBounds(416, 456, 188, 58);
+			alre.add(order_back);
 			return PanelCenter;
 	}
 		
 		
 	public static void main(String[] args) {
-	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					new client_gui();
+					client_gui clg = new client_gui(new client("127.0.0.1",5000));
+					clg.cg.tcpsend("startinfo"+"&"+"client of " + clg.cg.hashCode() +" is in");	
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
