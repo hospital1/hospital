@@ -71,12 +71,11 @@ public class server extends Thread {
                     	for(int i = 1;i < array.length-1;i++)
                     	{
                     		orderinfo += array[i]+"&";
-                    		tcpsend("num"+"&"+ num[0]);//又给自己挖了一个坑，回头记得填
-                    		num[0]++;
                     	}
                     	orderinfo += array[array.length-1];
+                    	tcpsend("num"+"&"+ num[0]);//又给自己挖了一个坑，回头记得填
+                		num[0]++;
                     }else if(array[0].equals("query")){
-                    	System.out.println("ordermes"+"&"+orderinfo);
                     	tcpsend("ordermes"+"&"+orderinfo);
                     }else if(array[0].equals("exit"))
                     {
@@ -98,6 +97,7 @@ public class server extends Thread {
         	 try {  
                  pw.println(str); 
                  pw.flush();
+                 System.out.println(str);
              } catch (Exception e) {  
                  e.printStackTrace();  
              }
