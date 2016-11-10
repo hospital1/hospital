@@ -17,18 +17,10 @@ public class client {
     
     public client(String ip,int num) throws UnknownHostException, IOException
     {
-    	 socket = new Socket(ip, num); //Initialize the port at 8080 
+    	 socket = new Socket(ip, num); //Initialize socket
     	 br = new BufferedReader(new InputStreamReader(socket.getInputStream()));//get message from server 
          pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())));//send message to server
     }
-    
-    public static void main(String[] args) throws UnknownHostException, IOException {    
-        client cl = new client("127.0.0.1",8080);
-    	
-    	cl.tcpsend("hello ,just for test");
-    	String ans = cl.tcprec();
-    	
-    }  
     
     public void tcpsend(String str)//send message
     {
@@ -45,7 +37,6 @@ public class client {
         
     	try {  
     		String str = br.readLine();
-    		System.out.println(str);
     		return str;
         } catch (Exception e) {  
             e.printStackTrace();  
