@@ -44,9 +44,10 @@ public class order_info extends JFrame {
 	public String info ="";
 	public client cl;
 	public String[] array = new String[20];
+	public String warning ;
 	
-	public order_info(client cl2) {
-		
+	public order_info(client cl2,String str) {
+		this.warning = str;
 		this.jf = new JFrame();
 		this.cl = cl2;
 		initUI(jf);
@@ -257,7 +258,7 @@ public class order_info extends JFrame {
 			order_now.setBorder(null);
 			PanelCenter.add(order_now);
 			
-			JLabel message = new JLabel("您将要预约**科**医生");
+			JLabel message = new JLabel(warning);
 			message.setForeground(new Color(105, 105, 105));
 			message.setFont(new Font("方正姚体", Font.PLAIN, 15));
 			message.setBounds(25, 13, 335, 18);

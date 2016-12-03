@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,9 +22,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 import tcp.client;//import the link for send and receive info
-
+import sql.doc_data;
 public class client_gui extends JFrame {
 	private static Point origin = new Point();//初始位点
 	public JFrame jf;
@@ -32,15 +34,19 @@ public class client_gui extends JFrame {
 	private JPanel PanelCenter;
 	private CardLayout cl_PanelCenter = new CardLayout();// set the layout in card
 	private JTextField ordernum;
+	private JTextPane info1,info2;
 	private JTextArea order_info;
 	public String[] array = new String[20];//save message from server 
 	public boolean flag =true;
+	public int doctornum = 0;
+	
 	public client_gui(client cg2) {
 		this.cg = cg2;
 		this.jf = new JFrame();
 		initUI(jf);
 		jf.setVisible(true);
 	}
+	
 	//定义一个初始化界面的方法  
 	public void initUI(JFrame jf){  
 	    jf.setSize(800, 600);//设置窗体的大小  
@@ -181,6 +187,16 @@ public class client_gui extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					cl_PanelCenter.show(PanelCenter, "p3");
+					doctornum = 10;
+					doc_data dd = new doc_data();
+					try {
+						info1.setText(dd.query(doctornum+1));
+						info2.setText(dd.query(doctornum+2));
+					} catch (SQLException e) {
+						// TODO 自动生成的 catch 块
+						e.printStackTrace();
+					}
+					
 				}
 			});
 			waike.setBorder(null);
@@ -192,6 +208,15 @@ public class client_gui extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					cl_PanelCenter.show(PanelCenter, "p3");
+					doctornum = 20;
+					doc_data dd = new doc_data();
+					try {
+						info1.setText(dd.query(doctornum+1));
+						info2.setText(dd.query(doctornum+2));
+					} catch (SQLException e2) {
+						// TODO 自动生成的 catch 块
+						e2.printStackTrace();
+					}
 				}
 			});
 			neike.setFocusPainted(false);
@@ -203,6 +228,15 @@ public class client_gui extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					cl_PanelCenter.show(PanelCenter, "p3");
+					doctornum = 30;
+					doc_data dd = new doc_data();
+					try {
+						info1.setText(dd.query(doctornum+1));
+						info2.setText(dd.query(doctornum+2));
+					} catch (SQLException e2) {
+						// TODO 自动生成的 catch 块
+						e2.printStackTrace();
+					}
 				}
 			});
 			fuchanke.setFocusPainted(false);
@@ -214,6 +248,15 @@ public class client_gui extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					cl_PanelCenter.show(PanelCenter, "p3");
+					doctornum = 40;
+					doc_data dd = new doc_data();
+					try {
+						info1.setText(dd.query(doctornum+1));
+						info2.setText(dd.query(doctornum+2));
+					} catch (SQLException e2) {
+						// TODO 自动生成的 catch 块
+						e2.printStackTrace();
+					}
 				}
 			});
 			erke.setFocusPainted(false);
@@ -225,6 +268,15 @@ public class client_gui extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					cl_PanelCenter.show(PanelCenter, "p3");
+					doctornum = 50;
+					doc_data dd = new doc_data();
+					try {
+						info1.setText(dd.query(doctornum+1));
+						info2.setText(dd.query(doctornum+2));
+					} catch (SQLException e2) {
+						// TODO 自动生成的 catch 块
+						e2.printStackTrace();
+					}
 				}
 			});
 			yanke.setFocusPainted(false);
@@ -236,6 +288,15 @@ public class client_gui extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					cl_PanelCenter.show(PanelCenter, "p3");
+					doctornum = 60;
+					doc_data dd = new doc_data();
+					try {
+						info1.setText(dd.query(doctornum+1));
+						info2.setText(dd.query(doctornum+2));
+					} catch (SQLException e2) {
+						// TODO 自动生成的 catch 块
+						e2.printStackTrace();
+					}
 				}
 			});
 			erbihouke.setFocusPainted(false);
@@ -247,6 +308,15 @@ public class client_gui extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					cl_PanelCenter.show(PanelCenter, "p3");
+					doctornum = 70;
+					doc_data dd = new doc_data();
+					try {
+						info1.setText(dd.query(doctornum+1));
+						info2.setText(dd.query(doctornum+2));
+					} catch (SQLException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
+					}
 				}
 			});
 			kouqiangke.setFocusPainted(false);
@@ -295,7 +365,14 @@ public class client_gui extends JFrame {
 			order1.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					new order_info(cg);
+					
+					doc_data dd = new doc_data();
+					try {
+						new order_info(cg,dd.orderwarn(doctornum+1));
+					} catch (SQLException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
+					}
 					//String order_mess = "" +inf.pname +"&"+inf.psex+"&"+inf.pold+"&"+inf.pmedi+"&"+inf.pat_info;
 					//System.out.println(order_mess);
 				}
@@ -305,32 +382,41 @@ public class client_gui extends JFrame {
 			order1.setBorder(null);
 			Doc_infor.add(order1);
 			JButton order2 = new JButton(new ImageIcon("factors2/order.png"));
+			order2.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					doc_data dd = new doc_data();
+					try {
+						new order_info(cg,dd.orderwarn(doctornum+2));
+					} catch (SQLException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
+					}
+				}
+			});
 			order2.setBounds(645, 463, 86, 38);
 			order2.setFocusPainted(false);
 			order2.setBorder(null);
 			Doc_infor.add(order2);
-			JTextField info1 = new JTextField();
+			info1 = new JTextPane();
 			info1.setFont(new Font("方正姚体", Font.PLAIN, 15));
 			info1.setForeground(new Color(138,138,138));
-			info1.setBounds(247, 96, 484, 134);
+			info1.setBounds(247, 129, 484, 119);
 			info1.setBorder(null);
 			info1.setBackground(new Color(230,230,230));
-			info1.setColumns(10);
-			info1.setText("医师简介");
 			Doc_infor.add(info1);
-			JTextField info2 = new JTextField();
-			info2.setColumns(10);
+			info2 = new JTextPane();
 			info2.setFont(new Font("方正姚体", Font.PLAIN, 15));
 			info2.setForeground(new Color(138,138,138));
 			info2.setBorder(null);
 			info2.setBackground(new Color(230,230,230));
-			info2.setBounds(247, 316, 484, 134);
-			info2.setText("医师简介");
+			info2.setBounds(247, 351, 484, 119);
 			Doc_infor.add(info2);
 			JButton doc_back = new JButton(new ImageIcon("factors2/back.png"));
 			doc_back.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cl_PanelCenter.show(PanelCenter, "p2");
+					doctornum = 0;//清零工作
 				}
 			});
 			doc_back.setFocusPainted(false);
@@ -338,6 +424,18 @@ public class client_gui extends JFrame {
 			doc_back.setBounds(659, 25, 105, 47);
 			Doc_infor.add(doc_back);
 			PanelCenter.add(Doc_infor,"p3");
+			
+			JLabel label1 = new JLabel("\u533B\u5E08\u7B80\u4ECB");
+			label1.setFont(new Font("方正姚体", Font.PLAIN, 15));
+			label1.setForeground(new Color(138,138,138));
+			label1.setBounds(247, 325, 72, 20);
+			Doc_infor.add(label1);
+			
+			JLabel label = new JLabel("\u533B\u5E08\u7B80\u4ECB");
+			label.setForeground(new Color(138, 138, 138));
+			label.setFont(new Font("方正姚体", Font.PLAIN, 15));
+			label.setBounds(247, 105, 72, 20);
+			Doc_infor.add(label);
 			
 			PanelCenter.add(alre, "p4");
 			
@@ -415,8 +513,6 @@ public class client_gui extends JFrame {
 				try {
 					client_gui clg = new client_gui(new client("127.0.0.1",5000));
 					clg.cg.tcpsend("startinfo"+"&"+"client of " + clg.cg.hashCode() +" is in");	
-					
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
