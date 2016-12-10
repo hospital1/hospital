@@ -36,17 +36,22 @@ public class order_info extends JFrame {
 	private JTextField name_txt;
 	private JTextField old_txt;
 	private JTextArea illness_dis;
-	public String pname = "";
+	
+	public String pname = "";//订单信息
 	public String pold = "";
 	public String psex ="";
 	public String pmedi="";
 	public String pat_info="";
 	public String info ="";
-	public client cl;
-	public String[] array = new String[20];
-	public String warning ;
 	
-	public order_info(client cl2,String str) {
+	public client cl;//线程传入
+	
+	public String[] array = new String[20];//存储服务器信息回复信息表
+	public String warning ;//提示信息
+	public int docnum;
+	
+	public order_info(client cl2,String str,int docnum) {//str代表医生号码**
+		this.docnum = docnum;
 		this.warning = str;
 		this.jf = new JFrame();
 		this.cl = cl2;
@@ -236,7 +241,7 @@ public class order_info extends JFrame {
 					else if(man.isSelected()) psex = "男";
 					if(medi_yes.isSelected()) pmedi ="有";
 					else if(medi_no.isSelected()) pmedi ="有";
-					String order_mess = ""+"ordernow"+"&"+pname +"&"+psex+"&"+pold+"&"+pmedi+"&"+pat_info;
+					String order_mess = ""+"ordernow"+"&"+docnum +"&"+pname +"&"+psex+"&"+pold+"&"+pmedi+"&"+pat_info;
 					cl.tcpsend(order_mess);//send the orderinfo
 					String num ="";
 					try {
@@ -247,8 +252,11 @@ public class order_info extends JFrame {
 					}
 					System.out.println(num);
 				    array = num.split("&");
-				    if((array[0]).equals("num")) System.out.println(array[1]);
-				    JOptionPane.showMessageDialog(null, "您的号码为"+array[1], "友情提示", JOptionPane.ERROR_MESSAGE);
+				    if((array[0]).equals("num"))
+				    	JOptionPane.showMessageDialog(null, "您的号码为"+array[1]+"\r\n"+"您的订单号为" + array[2], "友情提示", JOptionPane.ERROR_MESSAGE);
+				    else if((array[0]).equals("no")) JOptionPane.showMessageDialog(null, "当前医师挂号已满", "友情提示", JOptionPane.ERROR_MESSAGE);
+				     //服务器返回departok/no&科室名称&docnum
+				    //弹窗关闭，主页面跳转
 				    //JOptionPane.showMessageDialog(null, " 在对话框内显示的描述性的文字 ", " 标题条文字串", JOptionPane.ERROR_MESSAGE,icon);
 					jf.dispose();
 				}

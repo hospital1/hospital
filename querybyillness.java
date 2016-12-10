@@ -11,17 +11,22 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
 import sql.doc_data;
+import tcp.client;
+
 import javax.swing.Icon;
+import javax.swing.JCheckBox;
 
 
 
@@ -30,16 +35,22 @@ public class querybyillness extends JFrame {
 	private static Point origin = new Point();//初始位点
 	public JFrame jf;
 	private JTextPane textPane;
-	public querybyillness() {
-		
+	public String illness = "";
+	public client cl;
+	public String[] array;
+	
+	public querybyillness(client cl2) {
+		this.cl = cl2;
 		this.jf = new JFrame();
 		initUI(jf);
 		jf.setVisible(true);
+		
+
 	}
 
 	//定义一个初始化界面的方法  
 	public void initUI(JFrame jf){  
-	    jf.setSize(800, 560);//设置窗体的大小  
+	    jf.setSize(800, 297);//设置窗体的大小  
 	    jf.setLocationRelativeTo(null);
 	    jf.setDefaultCloseOperation(3);//设置关闭时退出程序  
 	    jf.setResizable(true);//设置不能调整窗口大小 
@@ -131,113 +142,128 @@ public class querybyillness extends JFrame {
 			PanelCenter.setLayout(null);
 			
 			textPane = new JTextPane();
-			textPane.setBounds(75, 191, 655, 201);
-			textPane.setBackground(new Color(230,230,230));
+			textPane.setBounds(49, 105, 716, 32);
+			//textPane.setBackground(new Color(230,230,230);
 			PanelCenter.add(textPane);
 			
 			JButton query = new JButton(new ImageIcon("factors2/query.png"));
+			query.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					String ill = textPane.getText();
+					if(ill == "") 
+						JOptionPane.showMessageDialog(null, "请输入病情", "错误提示", JOptionPane.ERROR_MESSAGE);
+					else cl.tcpsend("querybyillness&" + ill);
+					String department = "";
+					try {
+						department = cl.br.readLine();
+					} catch (IOException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
+					}
+					array = department.split("&");
+					//查询到可推荐科室
+					//弹窗跳转科室？？？？？？？
+					if((array[0]).equals("departok"))JOptionPane.showMessageDialog(null, "推荐科室为"+array[1], "友情提示", JOptionPane.ERROR_MESSAGE);
+					//查无此病情记录
+					else if((array[0]).equals("departno"))	JOptionPane.showMessageDialog(null, array[1], "友情提示", JOptionPane.ERROR_MESSAGE);
+				}
+			});
 			query.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 				}
 			});
-			query.setBounds(650, 437, 80, 32);
+			query.setBounds(685, 198, 80, 32);
 			query.setFocusPainted(false);
 			query.setBorder(null);
 			PanelCenter.add(query);
 			
-			JButton button = new JButton((Icon) null);
-			button.setFocusPainted(false);
-			button.setBorder(null);
-			button.setBounds(75, 80, 80, 32);
-			PanelCenter.add(button);
-			
-			JButton button_1 = new JButton((Icon) null);
-			button_1.setFocusPainted(false);
-			button_1.setBorder(null);
-			button_1.setBounds(190, 80, 80, 32);
-			PanelCenter.add(button_1);
-			
-			JButton button_2 = new JButton((Icon) null);
-			button_2.setFocusPainted(false);
-			button_2.setBorder(null);
-			button_2.setBounds(305, 80, 80, 32);
-			PanelCenter.add(button_2);
-			
-			JButton button_3 = new JButton((Icon) null);
-			button_3.setFocusPainted(false);
-			button_3.setBorder(null);
-			button_3.setBounds(420, 80, 80, 32);
-			PanelCenter.add(button_3);
-			
-			JButton button_4 = new JButton((Icon) null);
-			button_4.setFocusPainted(false);
-			button_4.setBorder(null);
-			button_4.setBounds(535, 80, 80, 32);
-			PanelCenter.add(button_4);
-			
-			JButton button_5 = new JButton((Icon) null);
-			button_5.setFocusPainted(false);
-			button_5.setBorder(null);
-			button_5.setBounds(650, 80, 80, 32);
-			PanelCenter.add(button_5);
-			
-			JButton button_6 = new JButton((Icon) null);
-			button_6.setFocusPainted(false);
-			button_6.setBorder(null);
-			button_6.setBounds(75, 125, 80, 32);
-			PanelCenter.add(button_6);
-			
-			JButton button_7 = new JButton((Icon) null);
-			button_7.setFocusPainted(false);
-			button_7.setBorder(null);
-			button_7.setBounds(190, 125, 80, 32);
-			PanelCenter.add(button_7);
-			
-			JButton button_8 = new JButton((Icon) null);
-			button_8.setFocusPainted(false);
-			button_8.setBorder(null);
-			button_8.setBounds(305, 125, 80, 32);
-			PanelCenter.add(button_8);
-			
-			JButton button_9 = new JButton((Icon) null);
-			button_9.setFocusPainted(false);
-			button_9.setBorder(null);
-			button_9.setBounds(420, 125, 80, 32);
-			PanelCenter.add(button_9);
-			
-			JButton button_10 = new JButton((Icon) null);
-			button_10.setFocusPainted(false);
-			button_10.setBorder(null);
-			button_10.setBounds(535, 125, 80, 32);
-			PanelCenter.add(button_10);
-			
-			JButton button_11 = new JButton((Icon) null);
-			button_11.setFocusPainted(false);
-			button_11.setBorder(null);
-			button_11.setBounds(650, 125, 80, 32);
-			PanelCenter.add(button_11);
-			
-			JLabel assignment = new JLabel("\u8BF7\u9009\u62E9\u60A8\u7B26\u5408\u7684\u75C7\u72B6\uFF1A");
+			JLabel assignment = new JLabel("\u8BF7\u8F93\u5165\u60A8\u60F3\u8981\u67E5\u8BE2\u7684\u75C5\u60C5\uFF1A");
 			assignment.setFont(new Font("方正姚体", Font.PLAIN, 25));
-			assignment.setBounds(14, 13, 431, 45);
+			assignment.setBounds(14, 42, 431, 45);
 			assignment.setForeground(new Color(138,138,138));
 			PanelCenter.add(assignment);
-			return PanelCenter;
-	}
-		
-		
-	
-	public static void main(String[] args) {
-	
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					new querybyillness();
-				} catch (Exception e) {
-					e.printStackTrace();
+			
+			JButton jb1 = new JButton("\u624B\u8DB3\u53E3\u75C5|");
+			jb1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					textPane.setText("手足口病");
 				}
-			}
-		});
+			});
+			jb1.setFont(new Font("华文细黑", Font.ITALIC, 15));
+			jb1.setBounds(160, 150, 80, 27);
+			jb1.setBackground(new Color(230,230,230));
+			jb1.setBorder(null);
+			jb1.setForeground(new Color(138,138,138));
+			jb1.setContentAreaFilled(false);
+			PanelCenter.add(jb1);
+			
+			JLabel assign = new JLabel("\u60A8\u53EF\u80FD\u60F3\u67E5\u8BE2\uFF1A");
+			assign.setFont(new Font("华文细黑", Font.ITALIC, 15));
+			assign.setBounds(49, 150, 158, 27);
+			assign.setForeground(new Color(138,138,138));
+			PanelCenter.add(assign);
+			
+			JButton jb5 = new JButton("\u80BA\u7ED3\u6838");
+			jb5.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					textPane.setText("肺结核");
+				}
+			});
+			jb5.setForeground(new Color(138, 138, 138));
+			jb5.setFont(new Font("华文细黑", Font.ITALIC, 15));
+			jb5.setContentAreaFilled(false);
+			jb5.setBorder(null);
+			jb5.setBackground(new Color(230, 230, 230));
+			jb5.setBounds(397, 150, 62, 27);
+			PanelCenter.add(jb5);
+			
+			JButton jb3 = new JButton("\u9752\u5149\u773C|");
+			jb3.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					textPane.setText("青光眼");
+				}
+			});
+			jb3.setForeground(new Color(138, 138, 138));
+			jb3.setFont(new Font("华文细黑", Font.ITALIC, 15));
+			jb3.setContentAreaFilled(false);
+			jb3.setBorder(null);
+			jb3.setBackground(new Color(230, 230, 230));
+			jb3.setBounds(285, 150, 55, 27);
+			PanelCenter.add(jb3);
+			
+			JButton jb4 = new JButton("\u5B50\u5BAB\u6536\u7F29|");
+			jb4.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					textPane.setText("子宫收缩");
+				}
+			});
+			jb4.setForeground(new Color(138, 138, 138));
+			jb4.setFont(new Font("华文细黑", Font.ITALIC, 15));
+			jb4.setContentAreaFilled(false);
+			jb4.setBorder(null);
+			jb4.setBackground(new Color(230, 230, 230));
+			jb4.setBounds(333, 150, 80, 27);
+			PanelCenter.add(jb4);
+			
+			JButton jb2 = new JButton("\u80A9\u5468\u708E|");
+			jb2.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					textPane.setText("肩周炎");
+				}
+			});
+			jb2.setForeground(new Color(138, 138, 138));
+			jb2.setFont(new Font("华文细黑", Font.ITALIC, 15));
+			jb2.setContentAreaFilled(false);
+			jb2.setBorder(null);
+			jb2.setBackground(new Color(230, 230, 230));
+			jb2.setBounds(227, 150, 67, 27);
+			PanelCenter.add(jb2);
+			return PanelCenter;
 	}
 }

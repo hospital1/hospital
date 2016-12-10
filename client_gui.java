@@ -17,8 +17,10 @@ import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -39,6 +41,9 @@ public class client_gui extends JFrame {
 	public String[] array = new String[20];//save message from server 
 	public boolean flag =true;
 	public int doctornum = 0;
+	public boolean orderflag = false;//记录是否有订单存在
+	
+	private JCheckBox one;
 	
 	public client_gui(client cg2) {
 		this.cg = cg2;
@@ -90,7 +95,7 @@ public class client_gui extends JFrame {
 		JPanel PanelNorth = new JPanel();
 		PanelNorth.setLayout(null);
 		PanelNorth.setBackground(new Color(198, 47, 47));// 设置背景颜色
-		PanelNorth.setPreferredSize(new Dimension(0, 45)); // 设置大小
+		PanelNorth.setPreferredSize(new Dimension(0, 35)); // 设置大小
 		// 加入关闭和最小化图标按钮
 		JButton jbc = new JButton(new ImageIcon("factors2/close.png"));// 关闭
 		jbc.addActionListener(new ActionListener() {
@@ -127,7 +132,7 @@ public class client_gui extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("自助挂号系统");
 		lblNewLabel_1.setForeground(new Color(230,230,230));
 		lblNewLabel_1.setFont(new Font("方正姚体", Font.PLAIN, 22));
-		lblNewLabel_1.setBounds(14, 0, 196, 45);
+		lblNewLabel_1.setBounds(14, -5, 196, 45);
 		PanelNorth.add(lblNewLabel_1);
 		return PanelNorth;			
 	}
@@ -327,7 +332,7 @@ public class client_gui extends JFrame {
 			anbingqing.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					cl_PanelCenter.show(PanelCenter, "p3");
+					new querybyillness(cg);
 				}
 			});
 			anbingqing.setFocusPainted(false);
@@ -368,7 +373,7 @@ public class client_gui extends JFrame {
 					
 					doc_data dd = new doc_data();
 					try {
-						new order_info(cg,dd.orderwarn(doctornum+1));
+						new order_info(cg,dd.orderwarn(doctornum+1),doctornum+1);
 					} catch (SQLException e1) {
 						// TODO 自动生成的 catch 块
 						e1.printStackTrace();
@@ -387,7 +392,7 @@ public class client_gui extends JFrame {
 				public void mouseClicked(MouseEvent e) {
 					doc_data dd = new doc_data();
 					try {
-						new order_info(cg,dd.orderwarn(doctornum+2));
+						new order_info(cg,dd.orderwarn(doctornum+2),doctornum+2);
 					} catch (SQLException e1) {
 						// TODO 自动生成的 catch 块
 						e1.printStackTrace();
@@ -454,7 +459,7 @@ public class client_gui extends JFrame {
 			query.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					cg.tcpsend("query"+"&"+"chaxun");
+					cg.tcpsend("query&"+ordernum.getText());
 					String ordermes ="";
 					String txt = "订单信息 ："+ "\r\n\r\n";
 					try {
@@ -465,11 +470,17 @@ public class client_gui extends JFrame {
 					}
 					System.out.println(ordermes);
 					array = ordermes.split("&");
-					txt += "\t"+"姓名:" + array[1] + "\r\n";
-					txt += "\t"+"性别:" + array[2] + "\r\n";
-					txt += "\t"+"年龄:" + array[3] + "\r\n";
-					txt += "\t"+"医保:" + array[4] + "\r\n";
-					txt += "\t"+"病情描述:" + array[5] + "\r\n";
+					if(array[0] .equals("ordermes")){
+						txt += "\t"+"姓名:" + array[1] + "\r\n";
+						txt += "\t"+"性别:" + array[2] + "\r\n";
+						txt += "\t"+"年龄:" + array[3] + "\r\n";
+						txt += "\t"+"医保:" + array[4] + "\r\n";
+						txt += "\t"+"病情描述:" + array[5] + "\r\n";
+						orderflag = true;	
+					}else if(array[0].equals("ordernull")){
+						txt += "\t\r\n" + array[1];
+						orderflag = false;
+					}
 					order_info.setText(txt);
 					
 				}
@@ -487,6 +498,29 @@ public class client_gui extends JFrame {
 			order_info.setColumns(10);
 			
 			JButton cancel = new JButton(new ImageIcon("factors2/cancel.png"));
+			cancel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					String order = ordernum.getText();
+					
+					if(orderflag) {
+						cg.tcpsend("cancel&" + order);//发送取消订单请求
+						String answer ="";
+						
+						try {
+							answer = cg.br.readLine();
+						} catch (IOException e1) {
+							// TODO 自动生成的 catch 块
+							e1.printStackTrace();
+						}
+						String[] array = answer.split("&");
+						JOptionPane.showMessageDialog(null, array[1] , "提示", JOptionPane.ERROR_MESSAGE);
+					}else{
+						JOptionPane.showMessageDialog(null, "无此订单信息" , "提示", JOptionPane.ERROR_MESSAGE);
+					}
+					
+				}
+			});
 			cancel.setFocusPainted(false);
 			cancel.setBorder(null);
 			cancel.setBounds(166, 456, 188, 58);
