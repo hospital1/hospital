@@ -7,8 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;  
 import java.io.PrintWriter;  
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;  
+import java.net.UnknownHostException;  
   
 public class client {  
 	public Socket socket = null;  
