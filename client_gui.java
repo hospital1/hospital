@@ -27,7 +27,6 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
 import tcp.client;//import the link for send and receive info
-import sql.doc_data;
 public class client_gui extends JFrame {
 	private static Point origin = new Point();//初始位点
 	public JFrame jf;
@@ -191,19 +190,22 @@ public class client_gui extends JFrame {
 			waike.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					cl_PanelCenter.show(PanelCenter, "p3");
 					doctornum = 10;
-					doc_data dd = new doc_data();
+					cg.tcpsend("doc_info&" +doctornum);
+					String info ="";
 					try {
-						info1.setText(dd.query(doctornum+1));
-						info2.setText(dd.query(doctornum+2));
-					} catch (SQLException e) {
+						info = cg.br.readLine();
+					} catch (IOException e1) {
 						// TODO 自动生成的 catch 块
-						e.printStackTrace();
+						e1.printStackTrace();
 					}
-					
+					String[] docinfos = info.split("&");
+					info1.setText(docinfos[1].replace("|", "\n"));
+					info2.setText(docinfos[2].replace("|", "\n"));
+					cl_PanelCenter.show(PanelCenter, "p3");
 				}
 			});
+		
 			waike.setBorder(null);
 			waike.setFocusPainted(false);
 			waike.setBounds(141, 162, 133, 160);
@@ -212,16 +214,19 @@ public class client_gui extends JFrame {
 			neike.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					cl_PanelCenter.show(PanelCenter, "p3");
 					doctornum = 20;
-					doc_data dd = new doc_data();
+					cg.tcpsend("doc_info&" +doctornum);
+					String info ="";
 					try {
-						info1.setText(dd.query(doctornum+1));
-						info2.setText(dd.query(doctornum+2));
-					} catch (SQLException e2) {
+						info = cg.br.readLine();
+					} catch (IOException e1) {
 						// TODO 自动生成的 catch 块
-						e2.printStackTrace();
+						e1.printStackTrace();
 					}
+					String[] docinfos = info.split("&");
+					info1.setText(docinfos[1].replace("|", "\n"));
+					info2.setText(docinfos[2].replace("|", "\n"));
+					cl_PanelCenter.show(PanelCenter, "p3");
 				}
 			});
 			neike.setFocusPainted(false);
@@ -232,16 +237,19 @@ public class client_gui extends JFrame {
 			fuchanke.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					cl_PanelCenter.show(PanelCenter, "p3");
 					doctornum = 30;
-					doc_data dd = new doc_data();
+					cg.tcpsend("doc_info&" +doctornum);
+					String info ="";
 					try {
-						info1.setText(dd.query(doctornum+1));
-						info2.setText(dd.query(doctornum+2));
-					} catch (SQLException e2) {
+						info = cg.br.readLine();
+					} catch (IOException e1) {
 						// TODO 自动生成的 catch 块
-						e2.printStackTrace();
+						e1.printStackTrace();
 					}
+					String[] docinfos = info.split("&");
+					info1.setText(docinfos[1].replace("|", "\n"));
+					info2.setText(docinfos[2].replace("|", "\n"));
+					cl_PanelCenter.show(PanelCenter, "p3");
 				}
 			});
 			fuchanke.setFocusPainted(false);
@@ -252,16 +260,19 @@ public class client_gui extends JFrame {
 			erke.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					cl_PanelCenter.show(PanelCenter, "p3");
 					doctornum = 40;
-					doc_data dd = new doc_data();
+					cg.tcpsend("doc_info&" +doctornum);
+					String info ="";
 					try {
-						info1.setText(dd.query(doctornum+1));
-						info2.setText(dd.query(doctornum+2));
-					} catch (SQLException e2) {
+						info = cg.br.readLine();
+					} catch (IOException e1) {
 						// TODO 自动生成的 catch 块
-						e2.printStackTrace();
+						e1.printStackTrace();
 					}
+					String[] docinfos = info.split("&");
+					info1.setText(docinfos[1].replace("|", "\n"));
+					info2.setText(docinfos[2].replace("|", "\n"));
+					cl_PanelCenter.show(PanelCenter, "p3");
 				}
 			});
 			erke.setFocusPainted(false);
@@ -272,16 +283,19 @@ public class client_gui extends JFrame {
 			yanke.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					cl_PanelCenter.show(PanelCenter, "p3");
 					doctornum = 50;
-					doc_data dd = new doc_data();
+					cg.tcpsend("doc_info&" +doctornum);
+					String info ="";
 					try {
-						info1.setText(dd.query(doctornum+1));
-						info2.setText(dd.query(doctornum+2));
-					} catch (SQLException e2) {
+						info = cg.br.readLine();
+					} catch (IOException e1) {
 						// TODO 自动生成的 catch 块
-						e2.printStackTrace();
+						e1.printStackTrace();
 					}
+					String[] docinfos = info.split("&");
+					info1.setText(docinfos[1].replace("|", "\n"));
+					info2.setText(docinfos[2].replace("|", "\n"));
+					cl_PanelCenter.show(PanelCenter, "p3");
 				}
 			});
 			yanke.setFocusPainted(false);
@@ -292,16 +306,19 @@ public class client_gui extends JFrame {
 			erbihouke.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					cl_PanelCenter.show(PanelCenter, "p3");
 					doctornum = 60;
-					doc_data dd = new doc_data();
+					cg.tcpsend("doc_info&" +doctornum);
+					String info ="";
 					try {
-						info1.setText(dd.query(doctornum+1));
-						info2.setText(dd.query(doctornum+2));
-					} catch (SQLException e2) {
+						info = cg.br.readLine();
+					} catch (IOException e1) {
 						// TODO 自动生成的 catch 块
-						e2.printStackTrace();
+						e1.printStackTrace();
 					}
+					String[] docinfos = info.split("&");
+					info1.setText(docinfos[1].replace("|", "\n"));
+					info2.setText(docinfos[2].replace("|", "\n"));
+					cl_PanelCenter.show(PanelCenter, "p3");
 				}
 			});
 			erbihouke.setFocusPainted(false);
@@ -312,16 +329,19 @@ public class client_gui extends JFrame {
 			kouqiangke.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					cl_PanelCenter.show(PanelCenter, "p3");
-					doctornum = 70;
-					doc_data dd = new doc_data();
+					doctornum =70;
+					cg.tcpsend("doc_info&" +doctornum);
+					String info ="";
 					try {
-						info1.setText(dd.query(doctornum+1));
-						info2.setText(dd.query(doctornum+2));
-					} catch (SQLException e1) {
+						info = cg.br.readLine();
+					} catch (IOException e1) {
 						// TODO 自动生成的 catch 块
 						e1.printStackTrace();
 					}
+					String[] docinfos = info.split("&");
+					info1.setText(docinfos[1].replace("|", "\n"));
+					info2.setText(docinfos[2].replace("|", "\n"));
+					cl_PanelCenter.show(PanelCenter, "p3");
 				}
 			});
 			kouqiangke.setFocusPainted(false);
@@ -370,16 +390,18 @@ public class client_gui extends JFrame {
 			order1.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					
-					doc_data dd = new doc_data();
+					int temp = doctornum+1;
+					cg.tcpsend("warning&" + temp);
+					String warning ="";
 					try {
-						new order_info(cg,dd.orderwarn(doctornum+1),doctornum+1);
-					} catch (SQLException e1) {
+						warning = cg.br.readLine();
+					} catch (IOException e1) {
 						// TODO 自动生成的 catch 块
 						e1.printStackTrace();
 					}
-					//String order_mess = "" +inf.pname +"&"+inf.psex+"&"+inf.pold+"&"+inf.pmedi+"&"+inf.pat_info;
-					//System.out.println(order_mess);
+					String[] warns = warning.split("&");
+					new order_info(cg,warns[1],doctornum+1);
+					
 				}
 			});
 			order1.setBounds(645, 243, 86, 38);
@@ -390,13 +412,17 @@ public class client_gui extends JFrame {
 			order2.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					doc_data dd = new doc_data();
+					int temp = doctornum+2;
+					cg.tcpsend("warning&" + temp);
+					String warning ="";
 					try {
-						new order_info(cg,dd.orderwarn(doctornum+2),doctornum+2);
-					} catch (SQLException e1) {
+						warning = cg.br.readLine();
+					} catch (IOException e1) {
 						// TODO 自动生成的 catch 块
 						e1.printStackTrace();
 					}
+					String[] warns = warning.split("&");
+					new order_info(cg,warns[1],doctornum+2);
 				}
 			});
 			order2.setBounds(645, 463, 86, 38);
@@ -468,7 +494,6 @@ public class client_gui extends JFrame {
 						// TODO 自动生成的 catch 块
 						e.printStackTrace();
 					}
-					System.out.println(ordermes);
 					array = ordermes.split("&");
 					if(array[0] .equals("ordermes")){
 						txt += "\t"+"姓名:" + array[1] + "\r\n";
@@ -515,6 +540,7 @@ public class client_gui extends JFrame {
 						}
 						String[] array = answer.split("&");
 						JOptionPane.showMessageDialog(null, array[1] , "提示", JOptionPane.ERROR_MESSAGE);
+						orderflag = false;
 					}else{
 						JOptionPane.showMessageDialog(null, "无此订单信息" , "提示", JOptionPane.ERROR_MESSAGE);
 					}
@@ -531,6 +557,8 @@ public class client_gui extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					cl_PanelCenter.show(PanelCenter, "p1");
+					ordernum.setText("");
+					order_info.setText("");
 				}
 			});
 			order_back.setFocusPainted(false);
@@ -545,7 +573,7 @@ public class client_gui extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					client_gui clg = new client_gui(new client("127.0.0.1",5000));
+					client_gui clg = new client_gui(new client("127.0.0.1",5134));
 					clg.cg.tcpsend("startinfo"+"&"+"client of " + clg.cg.hashCode() +" is in");	
 				} catch (Exception e) {
 					e.printStackTrace();

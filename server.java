@@ -10,11 +10,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 
+import sql.doc_data;
 import sql.ill_data;
 import sql.order_data;  
 public class server extends Thread {  
   
-    public static int PORT = 5000;
+    public static int PORT = 5134;
     public ServerSocket s = null;  
     public Socket socket = null;  
     public BufferedReader br = null;  
@@ -93,8 +94,6 @@ public class server extends Thread {
                     	String res = od.query(array[1]);
                     	if(res != "no") tcpsend("ordermes"+"&"+res);
                     	else tcpsend("ordernull&" + "未查询到该订单信息");
-                    }else if(array[0].equals("exit")){//退出
-                    	flag = false;
                     }else if(array[0].equals("querybyillness")){//按病情查询
                     	ill_data querybyillness = new ill_data();
                     	String depart = querybyillness.query(array[1]);
@@ -114,6 +113,19 @@ public class server extends Thread {
                     	int docnum = Integer.parseInt(array[1].substring(0,2));
                     	num[docnum/10][docnum%10]--;//挂号数减少
                     	tcpsend("deleteok&" +"取消成功");
+                    }else if(array[0].equals("doc_info")){
+                    	doc_data dd = new doc_data();
+                    	int docnum = Integer.parseInt(array[1]);
+                    	String info1 = dd.query(docnum+1);
+                    	String info2 = dd.query(docnum+2);
+                    	tcpsend("infos&"+info1+"&"+info2);
+                    }else if(array[0].equals("warning")){
+                    	doc_data dd = new doc_data();
+                    	int docnum = Integer.parseInt(array[1]);
+                    	String warning = dd.orderwarn(docnum);
+                    	tcpsend("infos&"+warning);
+                    }else if(array[0].equals("exit")){//退出
+                    	flag = false;
                     }
                 }
                 
